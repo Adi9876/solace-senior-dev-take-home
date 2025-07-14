@@ -1,0 +1,16 @@
+task-a
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+api_gateway_url = "https://jumvxncusi.execute-api.us-east-1.amazonaws.com/dev/decrypt"
+kms_key_alias = "alias/solace/decrypt"
+kms_key_id = "bc7f7768-8e59-447c-a111-a58c051a04fb"
+lambda_function_arn = "arn:aws:lambda:us-east-1:361101223433:function:solace-decrypt-service"
+lambda_function_name = "solace-decrypt-service"
+lambda_role_arn = "arn:aws:iam::361101223433:role/solace-prod-lambda-role"
+s3_bucket_name = "solace-prod-encrypted-blobs-mxf0vel6"
+
+//
+curl -X POST "https://jumvxncusi.execute-api.us-east-1.amazonaws.com/dev/decrypt" -H "Content-Type: application/json" -d '{"blobKey": "test-blob.txt.enc"}'

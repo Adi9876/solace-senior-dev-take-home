@@ -1,0 +1,18 @@
+This is a sample encrypted blob for testing the Solace decrypt service.
+It contains sensitive information that should be encrypted at rest and
+only decrypted within the secure Lambda environment.
+
+This blob demonstrates the enclave-style security model where:
+- Data is encrypted at rest in S3
+- Decryption only happens within the secure Lambda environment
+- KMS enforces access controls
+- IAM policies ensure least-privilege access
+
+Test data includes:
+- Timestamp: 2024-01-15 10:30:00 UTC
+- Test ID: solace-test-001
+- Content type: sensitive-text
+- Security level: high
+
+This content should be encrypted with KMS and stored in S3,
+then decrypted only when requested through the secure API endpoint. 

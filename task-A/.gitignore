@@ -101,5 +101,3 @@ jspm_packages/
 # TernJS port file
 .tern-port 
 
-../task-B/node_modules/
-../task-B/demo/node_modules/ 

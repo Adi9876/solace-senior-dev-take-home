@@ -13,4 +13,4 @@ lambda_role_arn = "arn:aws:iam::361101223433:role/solace-prod-lambda-role"
 s3_bucket_name = "solace-prod-encrypted-blobs-mxf0vel6"
 
 //
-curl -X POST "https://jumvxncusi.execute-api.us-east-1.amazonaws.com/dev/decrypt" -H "Content-Type: application/json" -d '{"blobKey": "test-blob.txt.enc"}'
+curl -X POST "https://jumvxncusi.execute-api.us-east-1.amazonaws.com/dev/decrypt" -H "Content-Type: application/json" -d '{"blobKey": "test-blob.txt.enc"}'L

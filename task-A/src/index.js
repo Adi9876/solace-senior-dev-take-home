@@ -4,21 +4,15 @@ const { KMSClient, DecryptCommand } = require("@aws-sdk/client-kms");
 const s3Client = new S3Client();
 const kmsClient = new KMSClient();
 
-// Environment variables
+
 const BUCKET_NAME = process.env.S3_BUCKET_NAME;
 const KMS_KEY_ID = process.env.KMS_KEY_ID;
 
-/**
- * Lambda handler for decrypting blobs stored in S3
- * @param {Object} event - API Gateway event
- * @param {Object} context - Lambda context
- * @returns {Object} API Gateway response
- */
+
 exports.handler = async (event, context) => {
   console.log("Event:", JSON.stringify(event, null, 2));
 
   try {
-    // Parse request body
     const body = JSON.parse(event.body || "{}");
     const { blobKey } = body;
 
@@ -32,7 +26,6 @@ exports.handler = async (event, context) => {
 
     let encryptedBlob;
     try {
-      // Fetch encrypted blob from S3
       const s3Response = await fetchFromS3(blobKey);
       if (!s3Response) {
         console.error("[S3 ERROR] Invalid S3 response");
@@ -57,7 +50,6 @@ exports.handler = async (event, context) => {
 
     let plaintext;
     try {
-      // Decrypt with KMS
       plaintext = await decryptWithKMS(encryptedBlob);
       console.log("Successfully decrypted blob");
     } catch (error) {
@@ -80,12 +72,7 @@ exports.handler = async (event, context) => {
     });
   }
 };
-// solace-decrypt-service%
-/**
- * Fetch encrypted blob from S3
- * @param {string} blobKey - S3 object key
- * @returns {Buffer} Encrypted blob data
- */
+
 async function fetchFromS3(blobKey) {
   try {
     const command = new GetObjectCommand({
@@ -100,7 +87,7 @@ async function fetchFromS3(blobKey) {
     ) {
       return null;
     }
-    // Convert stream to buffer
+    
     const chunks = [];
     for await (const chunk of response.Body) {
       chunks.push(chunk);
@@ -111,11 +98,6 @@ async function fetchFromS3(blobKey) {
   }
 }
 
-/**
- * Decrypt blob using AWS KMS
- * @param {Buffer} encryptedBlob - Encrypted data
- * @returns {string} Decrypted plaintext
- */
 async function decryptWithKMS(encryptedBlob) {
   const command = new DecryptCommand({
     CiphertextBlob: encryptedBlob,
@@ -124,16 +106,10 @@ async function decryptWithKMS(encryptedBlob) {
 
   const response = await kmsClient.send(command);
 
-  // Convert plaintext buffer to string
+  
   return response.Plaintext.toString("utf-8");
 }
 
-/**
- * Create API Gateway response with CORS headers
- * @param {number} statusCode - HTTP status code
- * @param {Object} body - Response body
- * @returns {Object} API Gateway response
- */
 function createResponse(statusCode, body) {
   return {
     statusCode: statusCode,
